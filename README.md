@@ -1,6 +1,9 @@
 # WNBA Playoff Prediction
 
+
+
 # Phase 1 - Business Understanding
+
 ![](./imgs/phase1.png)
 
 ## Determine Business Objectives
