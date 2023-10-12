@@ -45,3 +45,4 @@ The following terms will be used in the context of this project:
 
 ### Cost and benefits
 The project has 0 monetary costs associated, as its being done for free, for educational purposes. That means profit is surely guaranteed. From a business standpoint, one could use this model to gamble their way into accurately predicting next year's playoffs bracket - generating money, most probably.
+
