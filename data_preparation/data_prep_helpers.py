@@ -31,3 +31,9 @@ def filter_column_uniques(df,size=1):
         if len(pd.unique(df[col])) == size:
             df_clean.drop(col, axis=1, inplace=True)
     return df_clean
+
+
+def histogram_plot(df, col, bins=10):
+    df[col].hist(bins=bins)
+    plt.title(col)
+    plt.show()
