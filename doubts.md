@@ -1,2 +1,3 @@
 - Como escolher o fator de IQR para remover outliers? (por exemplo nos coaches) 
-- Preciso de aplicar o z-score e o IQR em todos os atributos?
+- Preciso de aplicar o z-score e o IQR em todos os atributos numéricos?
+- Quando deve eliminar os outliers? Depois ou entre cada mecanisco de deteção de outliers?
