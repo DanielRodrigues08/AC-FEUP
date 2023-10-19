@@ -35,7 +35,7 @@ def unique_values_by_column(df, threshold=0):
 def filter_column_uniques(df, size=1):
     df_clean = df.copy()
     for col in df.columns:
-        if len(pd.unique(df[col])) == size:
+        if len(pd.unique(df[col])) <= size:
             df_clean.drop(col, axis=1, inplace=True)
     return df_clean
 
@@ -45,13 +45,18 @@ def histogram_plot(df, max_zscore=3):
 
     num_columns = len(numerical_columns)
     num_rows = (num_columns + 1) // 2
-
+    
     fig, axes = plt.subplots(num_rows, 2, figsize=(12, 8))
 
     for i, column in enumerate(numerical_columns):
         row = i // 2
         col = i % 2
-        ax = axes[row, col]
+        
+        if num_rows == 1:
+            ax = axes[col]
+        else:
+            ax = axes[row, col]
+
         sb.histplot(data=df, x=column, kde=True, ax=ax)
         ax.set_title(f"Histogram of {column}")
         ax.set_xlabel(column)
@@ -109,7 +114,12 @@ def iqr_plot(df):
     for i, column in enumerate(numerical_columns):
         row = i // 2
         col = i % 2
-        ax = axes[row, col]
+        
+        if num_rows == 1:
+            ax = axes[col]
+        else:
+            ax = axes[row, col]
+        
         sb.boxplot(x=df[column], orient="h", ax=ax)
         lower_bound, upper_bound = calculate_bounds_iqr(df[column])
         ax.fill_betweenx(
