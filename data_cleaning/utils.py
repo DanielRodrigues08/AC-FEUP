@@ -165,11 +165,6 @@ def scatter_plot(df):
             # Move to the next axis
             plot_index += 1
 
-    # Remove empty subplots if the total number of plots is not a multiple of columns_per_row
-    if total_plots % columns_per_row != 0:
-        for j in range(total_plots % columns_per_row, columns_per_row):
-            fig.delaxes(axs[plot_index])
-
     # Adjust spacing between subplots
     fig.tight_layout()
 
