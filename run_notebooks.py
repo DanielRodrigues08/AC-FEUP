@@ -16,4 +16,4 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--path', type=str, default='data_cleaning')
     args = parser.parse_args()
-    main(path)
+    main(args.path)
