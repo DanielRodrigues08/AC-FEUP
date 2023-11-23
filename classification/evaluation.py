@@ -29,8 +29,6 @@ def roc_curve_plot(y_test, y_prob):
 
 
 def model_score(y_test, y_pred, y_prob, plot=True):
-    print("Prob: ", y_prob)
-    print("Pred: ", y_pred)
     if plot:
         confusion_matrix_plot(y_test, y_pred)
         roc_curve_plot(y_test, y_prob)

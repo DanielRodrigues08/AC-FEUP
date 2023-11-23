@@ -27,20 +27,12 @@ def train_model_simple(classifier, df, year, target):
 
 
 def train_model_hyper_tunning(classifier, df, year, target, param_grid):
-    classifier1 = copy.deepcopy(classifier)  # to create a pure function
     x_train, y_train, _, _ = split_data(df, year, target)
 
-    grid_search = GridSearchCV(classifier1, param_grid, cv=None)
+    grid_search = GridSearchCV(classifier, param_grid, cv=None)
     grid_search.fit(x_train, y_train)
-    classifier1.set_params(**grid_search.best_params_)
-
-    model = copy.deepcopy(
-        classifier1
-    )  # to enable plotting a learning curve with the same parameters
-    model.fit(x_train, y_train)
-
-    return model, classifier1
-
+    classifier.set_params(**grid_search.best_params_)
+    classifier.fit(x_train, y_train)
 
 def test_model(model, df, year, target):
     x_train, y_train, x_test, y_test = split_data(df, year, target)
