@@ -28,14 +28,29 @@ def roc_curve_plot(y_test, y_prob):
     plt.show()
 
 
-def model_score(y_test, y_pred, y_prob):
-    print("a", y_prob)
-    print("b", y_pred)
-    confusion_matrix_plot(y_test, y_pred)
-    roc_curve_plot(y_test, y_prob)
+def model_score(y_test, y_pred, y_prob, plot=True):
+    print("Prob: ", y_prob)
+    print("Pred: ", y_pred)
+    if plot:
+        confusion_matrix_plot(y_test, y_pred)
+        roc_curve_plot(y_test, y_prob)
 
     print(f"AUC: {round(roc_auc_score(y_test, y_prob) * 100, 2)}%")
     print(f"Accuracy: {round(accuracy_score(y_test, y_pred) * 100, 2)}%")
     print(f"Precision: {round(precision_score(y_test, y_pred) * 100, 2)}%")
     print(f"Recall: {round(recall_score(y_test, y_pred) * 100, 2)}%")
     print(f"F1: {round(f1_score(y_test, y_pred) * 100, 2)}%")
+
+
+def plot_learning_curve(years, train_scores, test_scores, fig_size=(8, 6)):
+    plt.figure()
+    plt.plot(years, train_scores, marker='o', label='Training score', color='blue')
+    plt.plot(years, test_scores, marker='o', label='Test score', color='red')
+
+    plt.title('Learning Curve')
+    plt.xlabel('Years')
+    plt.ylabel('Accuracy')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()

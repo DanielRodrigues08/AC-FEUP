@@ -4,7 +4,6 @@ import numpy as np
 from scipy import stats
 import seaborn as sb
 
-
 def nulls_values_by_column(df, plot_size=(12, 8)):
     null_counts = df.isnull().sum()
     plot = null_counts.plot(kind="bar", title="Number of null values per column", figsize = plot_size)

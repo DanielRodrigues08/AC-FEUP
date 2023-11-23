@@ -4,3 +4,4 @@ scipy
 numpy
 seaborn
 sklearn
+category_encoders
