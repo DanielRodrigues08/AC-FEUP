@@ -19,7 +19,7 @@ def get_overall_age(birth_dates):
     return sum(birth_years) / len(birth_years)
 
 
-def select_features(df, target, key_features, num_features=33):
+def select_features(df, target, key_features, num_features=26):
     available_columns = list(set(df.columns) - set(key_features) - set(target))
     features_values = pd.DataFrame(df[available_columns], columns=available_columns)
     target_values = df["playoff"].values
