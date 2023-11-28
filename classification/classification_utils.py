@@ -1,8 +1,6 @@
 from matplotlib import pyplot as plt
 from sklearn.model_selection import GridSearchCV, learning_curve
 import pandas as pd
-import copy
-
 
 def split_by_conf(df):
     return df[df["confID"] == 0], df[df["confID"] == 1]
@@ -28,10 +26,9 @@ def train_model_simple(classifier, df, year, target):
     try:
         classifier.fit(x_train, y_train, sample_weight=df.loc[x_train.index]['sampleWeight'])
     except:
-        for i, (_, row) in enumerate(x_train.iterrows()):
-            sample_weight = df.loc[row.name]['sampleWeight']
-            classifier.partial_fit([row.values], [y_train.iloc[i]], sample_weight=[sample_weight])
-
+        classifier.fit(x_train, y_train)
+    finally:
+        df.drop('sampleWeight', axis=1, inplace=True)
 
 def train_model_hyper_tunning(classifier, df, year, target, param_grid):
     x_train, y_train, _, _ = split_data(df, year, target)
