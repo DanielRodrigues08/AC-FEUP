@@ -1,21 +1,39 @@
-import os
+#! /usr/bin/env python3
 import subprocess
-import argparse
+import os
+
+pipeline_steps = [
+    #'cleaning',
+    #'integration',
+    'transformation',
+    'classification'
+]
 
 
-def main(path):
-    # Loop through each file in the directory
-    for file in os.listdir(path):
-        # Check if the file is a Jupyter notebook
-        if file.endswith('.ipynb'):
-            # Convert the notebook to a Python script using nbconvert
-            subprocess.run(['jupyter', 'nbconvert', '--to', 'script', os.path.join(path, file)])
-            # Run the Python script using subprocess
-            subprocess.run(['python', os.path.join(path, file.replace('.ipynb', '.py'))])
+def pipeline_step(step_dir):
+    notebook_paths = []
+    for file in os.listdir(step_dir):
+        if file.endswith(".ipynb"):
+            notebook_paths.append(os.path.join(step_dir, file))
+    for path in notebook_paths:
+        print(f"Executing notebook: {path}")
+        execute_notebook(path)
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--path', type=str, default='cleaning')
-    args = parser.parse_args()
-    main(args.path)
+def execute_notebook(notebook_path):
+    try:
+        subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', notebook_path])
+        converted_notebook = os.path.splitext(notebook_path)[0] + '.nbconvert.ipynb'
+        if os.path.exists(converted_notebook):
+            os.remove(converted_notebook)
+            print(f"Deleted: {converted_notebook}")
+
+    except Exception as e:
+        print(f"Error executing notebook {notebook_path}: {e}")
+
+
+for step in pipeline_steps:
+    print(f"Executing step: {step}")
+    pipeline_step(step)
+
+print("Pipeline execution complete.")
