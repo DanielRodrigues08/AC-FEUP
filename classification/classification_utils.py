@@ -32,11 +32,21 @@ def train_model_simple(classifier, df, year, target):
 
 def train_model_hyper_tunning(classifier, df, year, target, param_grid):
     x_train, y_train, _, _ = split_data(df, year, target)
+    df['sampleWeight'] = df['year'].apply(lambda year_x: 2 ** (year - year_x - 1) if year > year_x else 1)
 
-    grid_search = GridSearchCV(classifier, param_grid, cv=None)
-    grid_search.fit(x_train, y_train)
-    classifier.set_params(**grid_search.best_params_)
-    classifier.fit(x_train, y_train)
+    try:
+        grid_search = GridSearchCV(classifier, param_grid, cv=None, scoring='accuracy')
+        grid_search.fit(x_train, y_train, sample_weight=df.loc[x_train.index]['sampleWeight'])
+        classifier.set_params(**grid_search.best_params_)
+        classifier.fit(x_train, y_train, sample_weight=df.loc[x_train.index]['sampleWeight'])
+    except:
+        grid_search = GridSearchCV(classifier, param_grid, cv=None, scoring='accuracy')
+        grid_search.fit(x_train, y_train)
+        classifier.set_params(**grid_search.best_params_)
+        classifier.fit(x_train, y_train)
+    finally:
+        df.drop('sampleWeight', axis=1, inplace=True)
+    print(grid_search.best_params_)
 
 def test_model(model, df, year, target):
     x_train, y_train, x_test, y_test = split_data(df, year, target)
