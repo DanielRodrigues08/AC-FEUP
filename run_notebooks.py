@@ -3,8 +3,8 @@ import subprocess
 import os
 
 pipeline_steps = [
-    #'cleaning',
-    #'integration',
+    'cleaning',
+    'integration',
     'transformation',
     'classification'
 ]
