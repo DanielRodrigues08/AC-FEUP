@@ -125,9 +125,9 @@ def grid_search_features(df, excluded_cols, target, classifier, year, param_grid
             (
                 num_select,
                 num_components,
-                accuracy_score(y_test, y_test_pred),
-                f1_score(y_test, y_test_pred),
-                roc_auc_score(y_test, y_test_prob),
+                round(accuracy_score(y_test, y_test_pred), 4) * 100,
+                round(f1_score(y_test, y_test_pred), 4) * 100,
+                round(roc_auc_score(y_test, y_test_prob), 4) * 100,
             )
         )
 
@@ -138,4 +138,6 @@ def grid_search_features(df, excluded_cols, target, classifier, year, param_grid
 def display_num_features_results(results):
     print(f"Accuracy \t F1 \t AUC \t SelectKBest \t PCA")
     for result in results:
-        print(f"{round(result[2],4) *100} \t {round(result[3],4) *100} \t {round(result[4],4) *100} \t {result[0]} \t\t {result[1]}")
+        print(
+            f"{result[2]} \t {result[3]} \t {result[4]} \t {result[0]} \t {result[1]}"
+        )
