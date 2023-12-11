@@ -118,6 +118,7 @@ def grid_search_features(df, excluded_cols, target, classifier, year, param_grid
             _,
             _,
             _,
+            _
         ) = class_utils.test_model(new_classifier, new_df, year, target)
         y_test_pred = class_utils.enforce_max_teams(y_test_prob, conf_test)
 
