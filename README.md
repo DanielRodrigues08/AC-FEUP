@@ -1,6 +1,7 @@
 # WNBA Playoff Prediction
 
-
+# Running the project
+To run the project, check out our documentation provided in `docs/source/index.rst`. Access html pages under that directory to see all the needed knowledge in a formatted web page.
 
 # Phase 1 - Business Understanding
 
