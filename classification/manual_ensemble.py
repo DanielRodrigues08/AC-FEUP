@@ -37,6 +37,8 @@ class ManualEnsemble:
         y_train_gt = []
         conf_train = []
 
+        y_test_tmID = []
+
         for classifier, df in self.classifiers_df:
             (
                 y_test_gt_i,
@@ -45,17 +47,25 @@ class ManualEnsemble:
                 y_train_gt_i,
                 y_train_prob_i,
                 conf_train_i,
-                _
+                y_test_tmID_i,
             ) = test_model(classifier, df, year, self.target)
             y_test_prob.append(y_test_prob_i)
             y_train_prob.append(y_train_prob_i)
-
-            if len(conf_test) == 0:
+            
+            if len(conf_test) == 0: # First iteration
                 conf_test = conf_test_i
                 conf_train = conf_train_i
                 y_test_gt = y_test_gt_i
                 y_train_gt = y_train_gt_i
-
+                y_test_tmID = y_test_tmID_i
+            
+            # To make sure that the order of the teams is the same for all models
+            assert conf_test.equals(conf_test_i)
+            assert conf_train.equals(conf_train_i)
+            assert y_test_gt.equals(y_test_gt_i)
+            assert y_train_gt.equals(y_train_gt_i)
+            assert y_test_tmID.equals(y_test_tmID_i)
+            
         y_test_prob = [sum(x) for x in zip(*y_test_prob)]
         y_train_prob = [sum(x) for x in zip(*y_train_prob)]
 
@@ -66,4 +76,5 @@ class ManualEnsemble:
             y_train_gt,
             y_train_prob,
             conf_train,
+            y_test_tmID,
         )
