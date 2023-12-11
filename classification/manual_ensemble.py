@@ -45,6 +45,7 @@ class ManualEnsemble:
                 y_train_gt_i,
                 y_train_prob_i,
                 conf_train_i,
+                _
             ) = test_model(classifier, df, year, self.target)
             y_test_prob.append(y_test_prob_i)
             y_train_prob.append(y_train_prob_i)

@@ -22,6 +22,7 @@ def split_data(df, year, target):
 
 def train_model_simple(classifier, df, year, target):
     x_train, y_train, _, _ = split_data(df, year, target)
+    x_train = x_train.drop(['tmID'], axis=1)
     df['sampleWeight'] = df['year'].apply(lambda year_x: 2 ** (year - year_x - 1) if year > year_x else 1)
     try:
         classifier.fit(x_train, y_train, sample_weight=df.loc[x_train.index]['sampleWeight'])
@@ -32,6 +33,7 @@ def train_model_simple(classifier, df, year, target):
 
 def train_model_hyper_tunning(classifier, df, year, target, param_grid):
     x_train, y_train, _, _ = split_data(df, year, target)
+    x_train.drop(['tmID'], axis=1, inplace=True)
     df['sampleWeight'] = df['year'].apply(lambda year_x: 2 ** (year - year_x - 1) if year > year_x else 1)
 
     try:
@@ -50,11 +52,16 @@ def train_model_hyper_tunning(classifier, df, year, target, param_grid):
 
 def test_model(model, df, year, target):
     x_train, y_train, x_test, y_test = split_data(df, year, target)
+    x_test_id = x_test["tmID"]
+
+    x_train = x_train.drop(['tmID'], axis=1)
+    x_test = x_test.drop(['tmID'], axis=1)
+
 
     y_test_prob = model.predict_proba(x_test)[:, 1]
     y_train_prob = model.predict_proba(x_train)[:, 1]
 
-    return y_test, y_test_prob, x_test["confID"], y_train, y_train_prob, x_train["confID"]
+    return y_test, y_test_prob, x_test["confID"], y_train, y_train_prob, x_train["confID"], x_test_id
 
 
 def enforce_max_teams(y_prob, conf_id, max_teams=4):
