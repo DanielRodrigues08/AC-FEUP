@@ -83,14 +83,6 @@ def test_model(model, df, year, target):
         x_test_id,
     )
 
-def predict(model, df, year, target):
-    _, _, x_test, _ = split_data(df, year, target)
-    x_test_tmID = x_test["tmID"]
-    x_test = x_test.drop(["tmID"], axis=1)
-    y_test_prob = model.predict_proba(x_test)[:, 1]
-    return y_test_prob, x_test_tmID
-
-
 def enforce_max_teams(y_prob, conf_id, max_teams=4):
     joined = zip(range(len(y_prob)), y_prob, conf_id)
     joined = sorted(joined, key=lambda x: x[1], reverse=True)
