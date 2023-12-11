@@ -64,7 +64,6 @@ def train_model_hyper_tunning(classifier, df, year, target, param_grid):
 
 def test_model(model, df, year, target):
     # Use to simultaneously test the model on the test and train data
-    # If you want only predict in certain year, ignore the _train variables and the y_test_gt
     x_train, y_train, x_test, y_test = split_data(df, year, target)
     x_test_id = x_test["tmID"]
 
@@ -83,6 +82,13 @@ def test_model(model, df, year, target):
         x_train["confID"],
         x_test_id,
     )
+
+def predict(model, df, year, target):
+    _, _, x_test, _ = split_data(df, year, target)
+    x_test_tmID = x_test["tmID"]
+    x_test = x_test.drop(["tmID"], axis=1)
+    y_test_prob = model.predict_proba(x_test)[:, 1]
+    return y_test_prob, x_test_tmID
 
 
 def enforce_max_teams(y_prob, conf_id, max_teams=4):
