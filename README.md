@@ -1,3 +1,6 @@
+# Machine Learning
+FEUP M.EIC Y1S1
+
 # WNBA Playoff Prediction
 
 # Running the project
